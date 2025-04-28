@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc";
+option java_outer_classname = "HelloServiceProto";
+
+service HelloService {
+  rpc ProcessNumbers (NumbersRequest) returns (NumbersResponse);
+}
+
+message NumbersRequest {
+  repeated int32 numbers = 1;
+}
+
+message NumbersResponse {
+  repeated int32 sorted_numbers = 1;
+}
