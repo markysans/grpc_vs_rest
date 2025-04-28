@@ -25,7 +25,7 @@ public class BenchmarkClientApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args)  {
-        final int numberOfRequests = 100;  // Number of requests to send
+        final int numberOfRequests = 10000;  // Number of requests to send
         RestTemplate restTemplate = new RestTemplate();
         // REST Benchmark
         long restStart = System.nanoTime();
@@ -33,7 +33,7 @@ public class BenchmarkClientApplication implements CommandLineRunner {
         for (int i = 0; i < numberOfRequests; i++) {
             try {
                 // Generating dynamic list of numbers (for example, 1000 numbers from 1 to 1000)
-                List<Integer> numbers = generateNumbers(1000);
+                List<Integer> numbers = generateNumbers();
                 restTemplate.postForObject("http://localhost:8080/api/process", numbers, List.class);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -53,7 +53,7 @@ public class BenchmarkClientApplication implements CommandLineRunner {
             try {
                 // Generating dynamic list of numbers (for example, 1000 numbers from 1 to 1000)
                 HelloServiceProto.NumbersRequest request = HelloServiceProto.NumbersRequest.newBuilder()
-                        .addAllNumbers(generateNumbers(1000)) // Example: list of numbers generated dynamically
+                        .addAllNumbers(generateNumbers()) // Example: list of numbers generated dynamically
                         .build();
                 stub.processNumbers(request);
             } catch (Exception e) {
@@ -68,11 +68,8 @@ public class BenchmarkClientApplication implements CommandLineRunner {
     }
 
     // Generate dynamic list of numbers (e.g., 1 to n)
-    private List<Integer> generateNumbers(int n) {
-        List x = new ArrayList();
-        for(int i=0; i<100000000; i++)
-            x.add(i);
-        return x;
+    private List<Integer> generateNumbers() {
+        return List.of(10, 20);
     }
 
 }
